@@ -24,12 +24,12 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = binding.root
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
         updateNextWordOnScreen()
+        getNextScrambledWord()
         binding.score.text = getString(R.string.score, 0)
         binding.wordCount.text = getString(
             R.string.word_count, 0, MAX_NO_OF_WORDS
@@ -38,7 +38,6 @@ class GameFragment : Fragment() {
 
     private fun onSubmitWord() {
         val playerWord = binding.textInputEditText.text.toString()
-
         if (viewModel.isUserWordCorrect(playerWord)) {
             setErrorTextField(false)
             if (viewModel.nextWord()) {
@@ -65,7 +64,6 @@ class GameFragment : Fragment() {
         tempWord.shuffle()
         return String(tempWord)
     }
-
 
     private fun showFinalScoreDialog() {
         MaterialAlertDialogBuilder(requireContext())
